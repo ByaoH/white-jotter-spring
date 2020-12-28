@@ -1,0 +1,1 @@
+create database if not exists white_jotter char set utf8;

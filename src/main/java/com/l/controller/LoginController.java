@@ -2,7 +2,9 @@ package com.l.controller;
 
 import com.l.pojo.User;
 import com.l.result.Result;
+import com.l.result.ResultCode;
 import com.l.result.ResultFactory;
+import com.l.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,13 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class LoginController {
+    private final UserService userService;
+
+    public LoginController(UserService userService) {
+        this.userService = userService;
+    }
+
     @ApiOperation("登陆")
     @PostMapping(value = "/login")
     public Result test(@RequestBody User requestUser) {
         String username = requestUser.getUsername();
         String password = requestUser.getPassword();
-        if ("admin".equals(username) && "123456".equals(password)) {
-            return ResultFactory.buildSuccessResult(requestUser);
+        User user = userService.get(username, password);
+        if (user != null) {
+            return ResultFactory.buildResult(ResultCode.SUCCESS, "登陆成功", null);
         } else {
             return ResultFactory.buildFailResult("帐号或者密码错误");
         }
