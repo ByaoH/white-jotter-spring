@@ -24,7 +24,7 @@ public class LoginController {
 
     @ApiOperation("登陆")
     @PostMapping(value = "/login")
-    public Result test(@RequestBody User requestUser) {
+    public Result<?> test(@RequestBody User requestUser) {
         String username = requestUser.getUsername();
         String password = requestUser.getPassword();
         User user = userService.get(username, password);

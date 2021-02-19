@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * 响应码
+ * 统一返回类
  *
  * @author l
  */
 @Data
 @AllArgsConstructor
-public class Result {
+public class Result<T> {
     /**
      * 状态码
      */
@@ -22,5 +22,5 @@ public class Result {
     /**
      * 返回结果
      */
-    private Object data;
+    private T data;
 }
