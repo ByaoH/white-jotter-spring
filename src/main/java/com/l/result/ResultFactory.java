@@ -10,6 +10,14 @@ public class ResultFactory {
         return buildResult(ResultCode.SUCCESS, "成功", data);
     }
 
+    public static <T> Result<T> buildSuccessResult(String message, T data) {
+        return buildResult(ResultCode.SUCCESS, message, data);
+    }
+
+    public static Result<Void> buildSuccessResult(String message) {
+        return buildSuccessResult(message, null);
+    }
+
     public static Result<Void> buildFailResult(String message) {
         return buildResult(ResultCode.FAIL, message, null);
     }

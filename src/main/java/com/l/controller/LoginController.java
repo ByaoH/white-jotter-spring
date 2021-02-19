@@ -7,7 +7,10 @@ import com.l.result.ResultCode;
 import com.l.result.ResultFactory;
 import com.l.service.UserService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author l
@@ -38,11 +41,5 @@ public class LoginController {
     @GetMapping("/test")
     public String test() {
         return "test";
-    }
-
-    @GetMapping("/category/{id}")
-    public Result<String> deleteCategory(@PathVariable("id") Integer id) {
-        categoryDao.deleteById(id);
-        return ResultFactory.buildSuccessResult("成功");
     }
 }

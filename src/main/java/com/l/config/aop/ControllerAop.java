@@ -45,8 +45,8 @@ public class ControllerAop {
             logger.warn(pjp.getSignature() + getArgs(pjp) + message);
             return ResultFactory.buildFailResult(message);
         }
-        logger.error(pjp.getSignature() + getArgs(pjp) + "未知异常:" + e);
-        return ResultFactory.buildFailResult("错误");
+        logger.error(pjp.getSignature() + getArgs(pjp) + "未设置异常处理:" + e);
+        return ResultFactory.buildFailResult("错误" + e);
     }
 
     private String getArgs(ProceedingJoinPoint pjp) {

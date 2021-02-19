@@ -31,4 +31,15 @@ public class LibraryController {
         bookService.addOrUpdate(book);
         return ResultFactory.buildSuccessResult(book);
     }
+
+    @DeleteMapping("/{id}")
+    public Result<Void> delete(@PathVariable("id") Integer id) {
+        bookService.deleteById(id);
+        return ResultFactory.buildSuccessResult("删除成功");
+    }
+
+    @GetMapping("/getByCategoryId/{id}")
+    public Result<List<Book>> listByCategoryId(@PathVariable("id") Integer id) {
+        return ResultFactory.buildSuccessResult(bookService.listByCategory(id));
+    }
 }
