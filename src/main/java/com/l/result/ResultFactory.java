@@ -6,19 +6,19 @@ package com.l.result;
  * @author l
  */
 public class ResultFactory {
-    public static Result buildSuccessResult(Object data) {
+    public static <T> Result<T> buildSuccessResult(T data) {
         return buildResult(ResultCode.SUCCESS, "成功", data);
     }
 
-    public static Result buildFailResult(String message) {
+    public static Result<Void> buildFailResult(String message) {
         return buildResult(ResultCode.FAIL, message, null);
     }
 
-    public static Result buildResult(ResultCode code, String message, Object data) {
+    public static <T> Result<T> buildResult(ResultCode code, String message, T data) {
         return buildResult(code.code, message, data);
     }
-    
-    public static Result buildResult(Integer code, String message, Object data) {
-        return new Result(code, message, data);
+
+    public static <T> Result<T> buildResult(Integer code, String message, T data) {
+        return new Result<>(code, message, data);
     }
 }
