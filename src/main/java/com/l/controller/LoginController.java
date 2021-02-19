@@ -1,6 +1,6 @@
 package com.l.controller;
 
-import com.l.pojo.User;
+import com.l.entity.User;
 import com.l.result.Result;
 import com.l.result.ResultCode;
 import com.l.result.ResultFactory;
@@ -29,7 +29,7 @@ public class LoginController {
         String password = requestUser.getPassword();
         User user = userService.get(username, password);
         if (user != null) {
-            return ResultFactory.buildResult(ResultCode.SUCCESS, "登陆成功", null);
+            return ResultFactory.buildResult(ResultCode.SUCCESS, "登陆成功", username);
         } else {
             return ResultFactory.buildFailResult("帐号或者密码错误");
         }

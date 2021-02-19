@@ -1,7 +1,7 @@
 package com.l;
 
-import com.l.dao.UserDao;
-import com.l.pojo.User;
+import com.l.dao.BookDao;
+import com.l.dao.CategoryDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,18 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class WhiteJotterSpringApplicationTests {
     @Autowired
-    private UserDao dao;
+    private CategoryDao categoryDao;
+
+    @Autowired
+    private BookDao bookDao;
 
     @Test
-    void contextLoads() {
-        System.out.println(dao.findByUsername("root"));
-    }
-
-    @Test
-    void initDataBase() {
-        User entity = new User();
-        entity.setUsername("root");
-        entity.setPassword("123456");
-        System.out.println(dao.save(entity));
+    void test() {
+        System.out.println(bookDao.findAll());
     }
 }

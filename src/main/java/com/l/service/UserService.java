@@ -1,6 +1,6 @@
 package com.l.service;
 
-import com.l.pojo.User;
+import com.l.entity.User;
 
 /**
  * @author l

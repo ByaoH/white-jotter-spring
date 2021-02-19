@@ -1,6 +1,6 @@
 package com.l.dao;
 
-import com.l.pojo.User;
+import com.l.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
