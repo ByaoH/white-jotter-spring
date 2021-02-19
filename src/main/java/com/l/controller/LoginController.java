@@ -1,15 +1,13 @@
 package com.l.controller;
 
+import com.l.dao.CategoryDao;
 import com.l.entity.User;
 import com.l.result.Result;
 import com.l.result.ResultCode;
 import com.l.result.ResultFactory;
 import com.l.service.UserService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author l
@@ -17,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
     private final UserService userService;
+    private final CategoryDao categoryDao;
 
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, CategoryDao categoryDao) {
         this.userService = userService;
+        this.categoryDao = categoryDao;
     }
 
     @ApiOperation("登陆")
@@ -38,5 +38,11 @@ public class LoginController {
     @GetMapping("/test")
     public String test() {
         return "test";
+    }
+
+    @GetMapping("/category/{id}")
+    public Result<String> deleteCategory(@PathVariable("id") Integer id) {
+        categoryDao.deleteById(id);
+        return ResultFactory.buildSuccessResult("成功");
     }
 }

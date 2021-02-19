@@ -4,9 +4,7 @@ import com.l.entity.Book;
 import com.l.result.Result;
 import com.l.result.ResultFactory;
 import com.l.service.BookService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +24,11 @@ public class LibraryController {
     public Result<List<Book>> list() {
         List<Book> books = bookService.list();
         return ResultFactory.buildSuccessResult(books);
+    }
+
+    @PostMapping
+    public Result<Book> addOrUpdate(@RequestBody Book book) {
+        bookService.addOrUpdate(book);
+        return ResultFactory.buildSuccessResult(book);
     }
 }
