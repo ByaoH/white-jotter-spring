@@ -1,7 +1,6 @@
 package com.l.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.l.config.etc.SecurityConstants;
 import com.l.config.pojo.JwtUser;
 import com.l.dto.LoginUser;
@@ -44,7 +43,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
 //            获取登陆信息
-            LoginUser loginUser = new ObjectMapper().readValue(request.getInputStream(), LoginUser.class);
+            LoginUser loginUser = JSON.parseObject(request.getInputStream(), LoginUser.class);
             rememberMe.set(loginUser.getRememberMe());
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword());
             return authenticationManager.authenticate(authenticationToken);
