@@ -18,6 +18,12 @@ public interface SecurityConstants {
             "/webjars/**"
     };
     /**
+     * druid过滤白名单
+     */
+    String[] DRUID_WHITELIST = {
+            "/druid/**"
+    };
+    /**
      * jwt 请求头
      */
     String TOKEN_HEADER = "Authorization";
