@@ -49,7 +49,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword());
             return authenticationManager.authenticate(authenticationToken);
         } catch (Exception e) {
-            e.printStackTrace();
+            Result<String> stringResult = ResultFactory.buildResult(ResultCode.UNAUTHORIZED, "认证信息有误", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json; charset=UTF-8");
+            try {
+                response.getWriter().write(JSON.toJSONString(stringResult));
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            logger.error(e);
             return null;
         }
     }
@@ -63,6 +71,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         JwtUser jwtUser = (JwtUser) authResult.getPrincipal();
+        System.out.println(jwtUser);
         List<String> roles = jwtUser.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());

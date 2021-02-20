@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +27,8 @@ class DataBaseInit {
     BookDao bookDao;
     @Autowired
     CategoryDao categoryDao;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Test
     public void init() throws IOException {
@@ -38,7 +41,7 @@ class DataBaseInit {
         User user = new User();
         user.setId(1);
         user.setUsername("root");
-        user.setPassword("123456");
+        user.setPassword(bCryptPasswordEncoder.encode("123456"));
         userDao.save(user);
     }
 
