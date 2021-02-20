@@ -20,6 +20,10 @@ public enum ResultCode {
      * 未认证
      */
     UNAUTHORIZED(401),
+    /**
+     * 权限不足
+     */
+    FORBIDDEN(403),
 
     /**
      * 资源不存在
