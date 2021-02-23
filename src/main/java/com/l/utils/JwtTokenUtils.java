@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.*;
@@ -71,5 +72,13 @@ public class JwtTokenUtils {
                 .setSigningKey(SecurityConstants.SECRET)
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public static UsernamePasswordAuthenticationToken getAuthentication(String token, String username) {
+        UsernamePasswordAuthenticationToken authenticationToken = null;
+        List<SimpleGrantedAuthority> roles = getUserRolesByToken(token);
+        authenticationToken =
+                new UsernamePasswordAuthenticationToken(username, token, roles);
+        return authenticationToken;
     }
 }

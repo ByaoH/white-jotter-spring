@@ -5,6 +5,8 @@ import com.l.entity.User;
 import com.l.pojo.JwtUser;
 import com.l.utils.CurrentUserUtils;
 import com.l.utils.JwtTokenUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class AuthService {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final StringRedisTemplate stringRedisTemplate;
 
     private final UserService userService;
@@ -43,7 +46,8 @@ public class AuthService {
     public String getToken(LoginUser loginUser) throws BadCredentialsException {
         User user = userService.getByName(loginUser.getUsername());
 //        判断是否一致
-        if (user == null || userService.checkPassword(user.getPassword(), loginUser.getPassword())) {
+        if (user == null || !userService.checkPassword(loginUser.getPassword(), user.getPassword())) {
+            System.err.println("傻逼你进来了？");
             throw new BadCredentialsException("用户名或密码不正确");
         }
         JwtUser jwtUser = new JwtUser(user);
@@ -57,14 +61,19 @@ public class AuthService {
                 .collect(Collectors.toList());
         String token = JwtTokenUtils.createToken(user.getUsername(), roleList, loginUser.getRememberMe());
 //        由于用户名也是唯一，所以作为key存入redis
-        stringRedisTemplate.opsForValue().set(user.getUsername(), token);
+        stringRedisTemplate.opsForValue().set("token:" + user.getUsername(), token);
         return token;
     }
 
     /**
      * 删除当前用户的token
+     *
+     * @return 当前用户名
      */
-    public void deleteTokenFromRedis() {
-        stringRedisTemplate.delete(currentUserUtils.getCurrentUser().getUsername());
+    public String deleteTokenFromRedis() {
+        String username = currentUserUtils.getCurrentUser().getUsername();
+        stringRedisTemplate.delete("tooken:" + username);
+        currentUserUtils.clear();
+        return username;
     }
 }

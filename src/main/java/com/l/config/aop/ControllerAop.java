@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,6 +45,10 @@ public class ControllerAop {
             String message = "正在破坏约束关系";
             logger.warn(pjp.getSignature() + getArgs(pjp) + message);
             return ResultFactory.buildFailResult(message);
+        }
+        if (e instanceof BadCredentialsException) {
+            logger.warn("认证失败:" + getArgs(pjp) + e);
+            return ResultFactory.buildFailResult("认证失败:" + e.getMessage());
         }
         logger.error(pjp.getSignature() + getArgs(pjp) + "未设置异常处理:" + e);
         return ResultFactory.buildFailResult("错误" + e);

@@ -35,8 +35,8 @@ public interface UserService {
     /**
      * 检查密码是否一致
      *
-     * @param rawPassword     加密密码
-     * @param encodedPassword 未加密的密码
+     * @param rawPassword     未加密的密码
+     * @param encodedPassword 加密密码
      * @return 一致返回true
      */
     boolean checkPassword(String rawPassword, String encodedPassword);
