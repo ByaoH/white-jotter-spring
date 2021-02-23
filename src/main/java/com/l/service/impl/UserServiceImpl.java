@@ -3,6 +3,7 @@ package com.l.service.impl;
 import com.l.dao.UserDao;
 import com.l.entity.User;
 import com.l.service.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,8 +13,11 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
 
-    public UserServiceImpl(UserDao userDao) {
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UserServiceImpl(UserDao userDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDao = userDao;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -34,5 +38,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void add(User user) {
         userDao.save(user);
+    }
+
+    @Override
+    public boolean checkPassword(String rawPassword, String encodedPassword) {
+        return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
     }
 }
