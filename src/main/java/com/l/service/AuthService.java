@@ -47,7 +47,6 @@ public class AuthService {
         User user = userService.getByName(loginUser.getUsername());
 //        判断是否一致
         if (user == null || !userService.checkPassword(loginUser.getPassword(), user.getPassword())) {
-            System.err.println("傻逼你进来了？");
             throw new BadCredentialsException("用户名或密码不正确");
         }
         JwtUser jwtUser = new JwtUser(user);
