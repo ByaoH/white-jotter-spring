@@ -51,6 +51,8 @@ public interface SecurityConstants {
      * 选择了记住我之后的过期时间为7天
      */
     long EXPIRATION_REMEMBER = 60 * 60 * 24 * 7L;
-    
-    String AUTH_LOGIN_URL = "/login";
+
+    String AUTH_LOGIN_URL = "/auth/login";
+
+    String AUTH_LOGOUT_URL = "/auth/logout";
 }

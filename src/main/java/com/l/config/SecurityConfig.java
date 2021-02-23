@@ -3,11 +3,10 @@ package com.l.config;
 import com.l.config.etc.SecurityConstants;
 import com.l.exception.JwtAccessDeniedHandler;
 import com.l.exception.JwtAuthenticationEntryPoint;
-import com.l.filter.JwtAuthenticationFilter;
 import com.l.filter.JwtAuthorizationFilter;
-import com.l.service.impl.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,20 +20,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserDetailsServiceImpl userDetailsService;
+    private final StringRedisTemplate stringRedisTemplate;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(StringRedisTemplate stringRedisTemplate) {
+        this.stringRedisTemplate = stringRedisTemplate;
     }
+
+//    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
+//        this.userDetailsService = userDetailsService;
+//    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
     @Override
@@ -43,11 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(SecurityConstants.DRUID_WHITELIST).permitAll()
                 .antMatchers(SecurityConstants.SWAGGER_WHITELIST).permitAll()
+                .antMatchers(HttpMethod.POST, SecurityConstants.AUTH_LOGIN_URL).permitAll()
+                .antMatchers(HttpMethod.GET, SecurityConstants.AUTH_LOGOUT_URL).permitAll()
                 .antMatchers("/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilter(new JwtAuthorizationFilter(authenticationManager()))
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), stringRedisTemplate))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint())
