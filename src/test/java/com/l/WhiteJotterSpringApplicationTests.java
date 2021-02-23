@@ -1,17 +1,15 @@
 package com.l;
 
-import com.l.dao.CategoryDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.File;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 @SpringBootTest
 class WhiteJotterSpringApplicationTests {
     @Test
-    void test(@Autowired CategoryDao dao) {
-        File file = new File("../");
-        System.out.println(file.getAbsolutePath());
+    void test(@Autowired StringRedisTemplate redisTemplate) {
+        redisTemplate.opsForValue().set("k1", "v1");
+        System.out.println(redisTemplate.opsForValue().get("k1"));
     }
 }
