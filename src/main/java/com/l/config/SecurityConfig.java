@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, SecurityConstants.AUTH_LOGIN_URL).permitAll()
                 .antMatchers(HttpMethod.GET, SecurityConstants.AUTH_LOGOUT_URL).permitAll()
                 .antMatchers("/**").authenticated()
+                .antMatchers("/root/**").hasRole("ROOT")
                 .anyRequest().permitAll()
                 .and()
 //                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
