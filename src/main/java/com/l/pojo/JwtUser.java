@@ -1,12 +1,12 @@
-package com.l.config.pojo;
+package com.l.pojo;
 
 import com.l.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * 认证对象
@@ -26,7 +26,7 @@ public class JwtUser implements UserDetails {
         id = user.getId();
         username = user.getUsername();
         password = user.getPassword();
-        authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     /**

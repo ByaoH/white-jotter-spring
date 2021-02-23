@@ -1,7 +1,7 @@
 package com.l.utils;
 
-import com.l.config.pojo.JwtUser;
-import com.l.service.impl.UserDetailsServiceImpl;
+import com.l.entity.User;
+import com.l.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CurrentUserUtils {
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserService userService;
 
-    public CurrentUserUtils(UserDetailsServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public CurrentUserUtils(UserService userService) {
+        this.userService = userService;
     }
 
-    public JwtUser getCurrentUser() {
-        return (JwtUser) userDetailsService.loadUserByUsername(getCurrentUserName());
+    public User getCurrentUser() {
+        return userService.getByName(getCurrentUserName());
     }
 
     /**
@@ -30,7 +30,7 @@ public class CurrentUserUtils {
     private static String getCurrentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() != null) {
-            return ((JwtUser) authentication.getPrincipal()).getUsername();
+            return authentication.getPrincipal().toString();
         }
         return null;
     }

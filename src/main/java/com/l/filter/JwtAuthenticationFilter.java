@@ -2,8 +2,8 @@ package com.l.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.l.config.etc.SecurityConstants;
-import com.l.config.pojo.JwtUser;
 import com.l.dto.LoginUser;
+import com.l.pojo.JwtUser;
 import com.l.result.Result;
 import com.l.result.ResultCode;
 import com.l.result.ResultFactory;

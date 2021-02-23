@@ -40,6 +40,9 @@ public class LibraryController {
 
     @GetMapping("/getByCategoryId/{id}")
     public Result<List<Book>> listByCategoryId(@PathVariable("id") Integer id) {
+        if (id <= 0) {
+            return list();
+        }
         return ResultFactory.buildSuccessResult(bookService.listByCategory(id));
     }
 }

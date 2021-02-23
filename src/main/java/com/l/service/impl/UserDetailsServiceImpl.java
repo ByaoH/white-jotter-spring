@@ -1,7 +1,7 @@
 package com.l.service.impl;
 
-import com.l.config.pojo.JwtUser;
 import com.l.entity.User;
+import com.l.pojo.JwtUser;
 import com.l.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
